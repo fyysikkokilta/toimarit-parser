@@ -30,10 +30,13 @@ Example:
 import json
 
 text = open("volunteers.txt", "r").read()
+# Remove trailing spaces from each row
+text = '\n'.join(_.strip() for _ in text.splitlines())
 
 parts = text.split("JAOS\n")
 jaokset = [name.split("\n")[-1] for name in parts][:-1]
 duunarit = [part.split("\n\n") for part in parts][1:]
+
 
 # Section -> Role -> Names
 tekijät: dict[str, dict[str, list[str]]] = {}
