@@ -29,7 +29,7 @@ Example:
 
 import json
 
-text = open("volunteers.txt", "r").read()
+text = open("volunteers.txt", "r", encoding="utf-8").read()
 # Remove trailing spaces from each row
 text = '\n'.join(_.strip() for _ in text.splitlines())
 
@@ -66,15 +66,15 @@ for jaos, roles in tekijät.items():
             name_to_roles[name].append(role)
 
 # Generate files
-with open("toimarit.json", "w") as f:
+with open("toimarit.json", "w", encoding="utf-8") as f:
     json.dump(name_to_roles, f, indent=2, ensure_ascii=False)
-with open("jaokset.json", "w") as f:
+with open("jaokset.json", "w", encoding="utf-8") as f:
     # Jaos -> Roles
     jaos_to_roles: dict[str, list[str]] = {
         jaos: list(roles.keys()) for jaos, roles in tekijät.items()
     }
     json.dump(jaos_to_roles, f, indent=2, ensure_ascii=False)
-with open("kuvat.json", "w") as f:
+with open("kuvat.json", "w", encoding="utf-8") as f:
     names = {
         name: name.replace(" ", "-") + ".jpg"
         for roles in tekijät.values()
