@@ -34,7 +34,13 @@ text = open("volunteers.txt", "r", encoding="utf-8").read()
 text = '\n'.join(_.strip() for _ in text.splitlines())
 
 parts = text.split("JAOS\n")
+# Muut toimihenkilöt is last
+last = parts.pop()
+parts.append(last.split("MUUT TOIMIHENKILÖT\n")[0])
+parts.append(last.split("MUUT TOIMIHENKILÖT\n")[1])
 jaokset = [name.split("\n")[-1] for name in parts][:-1]
+jaokset.pop()
+jaokset.append("MUUT TOIMIHENKILÖT")
 duunarit = [part.split("\n\n") for part in parts][1:]
 
 
@@ -42,7 +48,10 @@ duunarit = [part.split("\n\n") for part in parts][1:]
 tekijät: dict[str, dict[str, list[str]]] = {}
 assert len(jaokset) == len(duunarit), "jaokset and duunarit have different lengths"
 for jaos, duunarit in zip(jaokset, duunarit):
-    jaos = f"{jaos}JAOS".title()
+    if jaos == "MUUT TOIMIHENKILÖT":
+        jaos = "Muut toimihenkilöt"
+    else:
+        jaos = f"{jaos}JAOS".title()
     roles_list = [
         (duunari.split("\n")[0].title(), duunari.split("\n")[1:])
         for duunari in duunarit
